@@ -1,0 +1,5 @@
+users:
+  admin:
+    email: admin@localhost
+    name: admin
+    password: $2y$05$VMymrxf.6x1gveQBhXFzFO7ZkNtDi8jmfREY6x91azebsbqC16G6S

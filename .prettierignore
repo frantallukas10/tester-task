@@ -1,0 +1,8 @@
+/dist
+/coverage
+pnpm-lock.yaml
+
+# FE tests
+apps/*-e2e/output
+apps/*-e2e/temp
+__snapshots__

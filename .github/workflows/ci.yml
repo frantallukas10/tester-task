@@ -1,0 +1,56 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04 # Explicitne špecifikovaná verzia Ubuntu
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start Dozzle Docker container
+        run: |
+          docker run -d \
+            -v "/var/run/docker.sock:/var/run/docker.sock:ro" \
+            -v "$PWD/users.yml:/data/users.yml:ro" \
+            -p "8080:8080" \
+            -e "DOZZLE_AUTH_PROVIDER=simple" \
+            --name dozzle \
+            amir20/dozzle:v8.8.2
+        env:
+          PWD: ${{ github.workspace }}
+
+      - name: Verify Docker container is running
+        run: docker ps | grep dozzle
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run Playwright tests
+        env:
+          CI: true
+          ENV_URL: http://localhost:8080
+        run: npm run test
+
+      - name: Upload JUnit results to Xray
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-results
+          path: output/TEST-results.xml
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-report
+          path: output/html-report

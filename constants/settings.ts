@@ -1,0 +1,17 @@
+export const validSettings = {
+  automaticRedirect: true,
+  collapseNav: false,
+  compact: false,
+  dateLocale: 'auto',
+  hourStyle: 'auto',
+  lightTheme: 'dark',
+  locale: '',
+  menuWidth: 15,
+  search: true,
+  showAllContainers: false,
+  showStd: false,
+  showTimestamp: true,
+  size: 'medium',
+  smallerScrollbars: false,
+  softWrap: true,
+}
